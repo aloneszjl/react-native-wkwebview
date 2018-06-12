@@ -506,6 +506,9 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 - (void)webView:(__unused WKWebView *)webView didFailProvisionalNavigation:(__unused WKNavigation *)navigation withError:(NSError *)error
 {
   if (_onLoadingError) {
+    if([error.domain isEqualToString:@"WebKitErrorDomain"]){
+      return;
+    }
     if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
       // NSURLErrorCancelled is reported when a page has a redirect OR if you load
       // a new URL in the WebView before the previous one came back. We can just
